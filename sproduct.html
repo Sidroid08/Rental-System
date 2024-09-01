@@ -28,44 +28,40 @@
 
     <section id="prodetails" class="section-p1">
       <div class="single-pro-image">
-        <img src="images/products/dress1.jpg" width="100%" id="MainImg" alt="">
+        <img src="" width="100%" id="MainImg" alt="">
 
         <div class="small-img-group">
           <div class="small-img-col">
-            <img src="images/products/dress1.1.jpg" width="100%" class="small-img" alt="">
+            <img src="" width="100%" class="small-img" alt="">
           </div>
           <div class="small-img-col">
-            <img src="images/products/dress1.2.jpg" width="100%" class="small-img" alt="">
+            <img src="" width="100%" class="small-img" alt="">
           </div>
           <div class="small-img-col">
-            <img src="images/products/dress1.3.jpg" width="100%" class="small-img" alt="">
+            <img src="" width="100%" class="small-img" alt="">
           </div>
           <div class="small-img-col">
-            <img src="images/products/dress1.4.jpg" width="100%" class="small-img" alt="">
+            <img src="" width="100%" class="small-img" alt="">
           </div>
         </div>
       </div>
 
       <div class="single-pro-details">
-        <h6>Home / Gown</h6>
-        <h4>Rose Gold Embellished Gown</h4>
-        <h2>₹7,000</h2>
-        <select>
+        <h6>Home / Product</h6>
+        <h4 id="product-name">Product Name</h4>
+        <h2 id="product-price">₹0</h2>
+        <select id="product-size">
           <option>Select Size</option>
+          <option>Small</option>
+          <option>Medium</option>
+          <option>Large</option>
           <option>XL</option>
           <option>XXL</option>
-          <option>Small</option>
-          <option>Large</option>
         </select>
-        <input type="number" value="1">
-        <button class="normal">Add To Cart</button>
+        <input type="number" value="1" id="quantity">
+        <button class="normal" id="add-to-cart">Add To Cart</button>
         <h4>Product Details</h4>
-        <span>A net-fabricated rose gold gown with cape sleeves, adorned with cutdana, sequins, and beadwork. See size chart for length and fit.
-          SKU: FM3677-1
-          Color: Rose Gold
-          Material: Net
-          Neck Design: Sweetheart
-          Sleeves: Cape Sleeve</span>
+        <p id="product-description"></p>
       </div>
     </section>
 
@@ -212,35 +208,16 @@
     </footer>
 
     <script>
-      var MainImg = document.getElementById("MainImg");
-      var smallimg = document.getElementsByClassName("small-img");
-
-      smallimg[0].onclick = function(){
-        MainImg.src = smallimg[0].src;
-      }
-      smallimg[1].onclick = function(){
-        MainImg.src = smallimg[1].src;
-      }
-      smallimg[2].onclick = function(){
-        MainImg.src = smallimg[2].src;
-      }
-      smallimg[3].onclick = function(){
-        MainImg.src = smallimg[3].src;
-      }
-    </script>
-
-
-    <script>
       // Change Main Product Image on Thumbnail Click
       var mainImg = document.getElementById("MainImg");
       var smallImgs = document.getElementsByClassName("small-img");
-
+    
       for (var i = 0; i < smallImgs.length; i++) {
           smallImgs[i].onclick = function() {
               mainImg.src = this.src;
           }
       }
-
+    
       // Add To Cart Button Functionality
       var addToCartBtn = document.querySelector('.single-pro-details .normal');
       addToCartBtn.addEventListener('click', function() {
@@ -254,10 +231,9 @@
               // Additional logic to actually add the item to a cart can be implemented here
           }
       });
-
+    
       // Featured Products - Cart Icon Click
       document.addEventListener("DOMContentLoaded", function() {
-        
           // Add to Cart button functionality
           const addToCartButtons = document.querySelectorAll(".add-to-cart");
     
@@ -290,7 +266,7 @@
               });
           });
       });
-      
+    
       // Function to add a product to the cart
       function addToCart(product) {
           let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -298,7 +274,7 @@
           localStorage.setItem("cart", JSON.stringify(cart));
           alert("Product added to cart!");
       }
-
+    
       // Newsletter Signup
       var newsletterForm = document.querySelector('#newsletter .form');
       newsletterForm.querySelector('button').addEventListener('click', function() {
@@ -311,14 +287,69 @@
               alert("Please enter a valid email address.");
           }
       });
-
+    
       // Function to validate email address
       function validateEmail(email) {
           var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           return re.test(email);
       }
+    
+      // Load Product Details Based on URL Parameter
+      document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+    
+        if (productId) {
+          // You would fetch the product details from your backend or a local data source
+          // For simplicity, we are using hardcoded details here
+          const productDetails = {
+            1: {
+              name: 'Rose Gold Embellished Gown',
+              price: '₹7,000',
+              image: 'images/products/dress1.jpg',
+              smallImages: ['images/products/dress1.1.jpg', 'images/products/dress1.2.jpg', 'images/products/dress1.3.jpg', 'images/products/dress1.4.jpg'],
+              description: 'A net-fabricated rose gold gown with cape sleeves, adorned with cutdana, sequins, and beadwork. See size chart for length and fit. SKU: FM3677-1 Color: Rose Gold Material: Net Neck Design: Sweetheart Sleeves: Cape Sleeve'
+            },
 
+            2: {
+              name: 'Multi-colored Printed Lehenga',
+              price: '₹13,440',
+              image: 'images/products/dress2.jpg',
+              smallImages: ['images/products/dress2.jpg','images/products/dress2.1.jpg', 'images/products/dress2.2.jpg'],
+              description: 'This is a vibrant, multi-colored printed lehenga featuring intricate thread work. It is paired with a matching net dupatta, completing the festive and eye-catching ensemble. See size chart for length and fit. SKU: FM3665-3 Color: MultiColor, Material: Raw Silk & Net, Neck Design: Sweetheart, Sleeves: Short Sleeve'
+            },
 
+            3: {
+              name: 'Shri Krishna Dress for Baby Boy & Girl',
+              price: '₹546',
+              image: 'images/products/dress7.jpg',
+              smallImages: ['images/products/dress7.jpg', 'images/products/dress7.1.jpg', 'images/products/dress7.2.jpg', 'images/products/dress7.3.jpg', 'images/products/dress7.4.jpg'],
+              description: 'Material: Crafted from premium, soft cotton, providing maximum comfort and breathability for your baby’s delicate skin. Occasion: Ideal for festivals, religious ceremonies, cultural events, and themed photoshoots, adding a touch of divine elegance to any occasion. Included: The set comprises 1 top, 1 dhoti, 1 mala, 1 patka, 1 mukut, 1 basuri, 1 pair of earrings, and 1 bajuband, offering a complete and authentic Krishna look. Divine Design: Unisex and perfectly tailored for infants aand kids, featuring a vibrant yellow hue and intricately designed accessories that embody the spirit of Lord Krishna. Care Instructions: Easy to care for; gently hand wash with mild detergent and air dry to maintain the outfit’s softness and vibrant colors ensuring it remains a cherished ensemble for future celebrations.'
+            },
+            4: {
+              name: 'Navy Blue Lehenga Set',
+              price: '₹6,720',
+              image: 'images/products/dress4.jpg',
+              smallImages: ['images/products/dress4.jpg', 'images/products/dress4.1.jpg', 'images/products/dress4.2.jpg', 'images/products/dress4.3.jpg'],
+              description: 'This is a stunning blue lehenga featuring intricate sequin and embroidery work throughout. Net Dupatta. See size chart for length and fit. SKU: FM3658-3 Color: Navy Blue Material: Net Neck Design: Sweetheart Sleeves: Sleeveless'
+            }
+            // Add more products here
+          };
+    
+          const product = productDetails[productId];
+    
+          if (product) {
+            document.getElementById('MainImg').src = product.image;
+            document.querySelectorAll('.small-img').forEach((img, index) => {
+              img.src = product.smallImages[index] || '';
+            });
+            document.getElementById('product-name').textContent = product.name;
+            document.getElementById('product-price').textContent = product.price;
+            document.getElementById('product-description').textContent = product.description;
+          }
+        }
+      });
     </script>
+    
   </body>
 </html>
