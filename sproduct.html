@@ -221,16 +221,39 @@
       // Add To Cart Button Functionality
       var addToCartBtn = document.querySelector('.single-pro-details .normal');
       addToCartBtn.addEventListener('click', function() {
-          var quantity = document.querySelector('.single-pro-details input[type="number"]').value;
+          var quantity = parseInt(document.querySelector('.single-pro-details input[type="number"]').value);
           var size = document.querySelector('.single-pro-details select').value;
-          
+          var productName = document.getElementById('product-name').textContent;
+          var productPrice = document.getElementById('product-price').textContent.replace('₹', '').replace(',', '');
+          var productImage = document.getElementById('MainImg').src;
+    
           if (size === "Select Size") {
               alert("Please select a size.");
           } else {
-              alert("Added " + quantity + " item(s) of size " + size + " to your cart.");
-              // Additional logic to actually add the item to a cart can be implemented here
+              var cartItem = {
+                  name: productName,
+                  price: parseFloat(productPrice),
+                  image: productImage,
+                  quantity: quantity,
+                  size: size
+              };
+    
+              addToCart(cartItem);
           }
       });
+    
+      // Function to add a product to the cart
+      function addToCart(product) {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          const existingItemIndex = cart.findIndex(item => item.name === product.name && item.size === product.size);
+          if (existingItemIndex > -1) {
+              cart[existingItemIndex].quantity += product.quantity;
+          } else {
+              cart.push(product);
+          }
+          localStorage.setItem("cart", JSON.stringify(cart));
+          alert("Product added to cart!");
+      }
     
       // Featured Products - Cart Icon Click
       document.addEventListener("DOMContentLoaded", function() {
@@ -267,19 +290,11 @@
           });
       });
     
-      // Function to add a product to the cart
-      function addToCart(product) {
-          let cart = JSON.parse(localStorage.getItem("cart")) || [];
-          cart.push(product);
-          localStorage.setItem("cart", JSON.stringify(cart));
-          alert("Product added to cart!");
-      }
-    
       // Newsletter Signup
       var newsletterForm = document.querySelector('#newsletter .form');
       newsletterForm.querySelector('button').addEventListener('click', function() {
           var email = newsletterForm.querySelector('input[type="text"]').value;
-          
+    
           if (validateEmail(email)) {
               alert("Thank you for signing up!");
               // Additional logic for handling the newsletter signup can be added here
@@ -310,7 +325,7 @@
               smallImages: ['images/products/dress1.1.jpg', 'images/products/dress1.2.jpg', 'images/products/dress1.3.jpg', 'images/products/dress1.4.jpg'],
               description: 'A net-fabricated rose gold gown with cape sleeves, adorned with cutdana, sequins, and beadwork. See size chart for length and fit. SKU: FM3677-1 Color: Rose Gold Material: Net Neck Design: Sweetheart Sleeves: Cape Sleeve'
             },
-
+    
             2: {
               name: 'Multi-colored Printed Lehenga',
               price: '₹13,440',
@@ -318,7 +333,7 @@
               smallImages: ['images/products/dress2.jpg','images/products/dress2.1.jpg', 'images/products/dress2.2.jpg'],
               description: 'This is a vibrant, multi-colored printed lehenga featuring intricate thread work. It is paired with a matching net dupatta, completing the festive and eye-catching ensemble. See size chart for length and fit. SKU: FM3665-3 Color: MultiColor, Material: Raw Silk & Net, Neck Design: Sweetheart, Sleeves: Short Sleeve'
             },
-
+    
             3: {
               name: 'Shri Krishna Dress for Baby Boy & Girl',
               price: '₹546',
@@ -350,6 +365,7 @@
         }
       });
     </script>
+    
     
   </body>
 </html>
